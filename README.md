@@ -2,12 +2,33 @@ Simple Flask Todo App using SQLAlchemy and SQLite database.
 
 For styling [semantic-ui](https://semantic-ui.com/) is used.
 
+### Project Structure
+
+```
+app/
+├── __init__.py          # Flask app factory (create_app)
+├── models/
+│   └── todo.py          # Todo SQLAlchemy model
+├── routes/
+│   ├── views.py         # HTML routes (home/add/update/delete)
+│   └── api.py           # REST API endpoints (JSON)
+├── services/
+│   └── todo_service.py  # Business logic layer
+├── schemas/
+│   └── todo_schema.py   # Marshmallow schemas for validation
+└── templates/
+    └── base.html        # Jinja2 template
+run.py                   # Entry point
+tests/
+├── test_todo_api.py     # API endpoint tests
+└── test_todo_service.py # Service layer unit tests
+```
+
 ### Setup
+
 Create project with virtual environment
 
 ```console
-$ mkdir myproject
-$ cd myproject
 $ python3 -m venv venv
 ```
 
@@ -21,25 +42,35 @@ or on Windows
 venv\Scripts\activate
 ```
 
-Install Flask
+Install dependencies
 ```console
-$ pip install Flask
-$ pip install Flask-SQLAlchemy
+$ pip install -r requirements.txt
 ```
 
-Set environment variables in terminal
+Copy and configure environment variables (optional — defaults are provided)
 ```console
-$ export FLASK_APP=app.py
-$ export FLASK_ENV=development
+$ cp .env.example .env
 ```
 
-or on Windows
+### Running the App
+
 ```console
-$ set FLASK_APP=app.py
-$ set FLASK_ENV=development
+$ python run.py
 ```
 
-Run the app
+The app will be available at `http://localhost:5000`.
+
+### REST API
+
+| Method | Endpoint             | Description                  |
+|--------|----------------------|------------------------------|
+| GET    | `/api/todos`         | List all todos (JSON)        |
+| POST   | `/api/todos`         | Create a todo (`{"title": "..."}`) |
+| PUT    | `/api/todos/<id>`    | Toggle complete status       |
+| DELETE | `/api/todos/<id>`    | Delete a todo                |
+
+### Running Tests
+
 ```console
-$ flask run
+$ pytest
 ```
