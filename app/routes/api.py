@@ -16,7 +16,7 @@ def get_todos():
 def create_todo():
     """Create a new todo from JSON body ``{"title": "..."}``."""
     data = request.get_json(silent=True)
-    if not data or "title" not in data:
+    if not data or "title" not in data or not isinstance(data["title"], str):
         return jsonify({"error": "Request body must include a 'title' field."}), 400
 
     try:

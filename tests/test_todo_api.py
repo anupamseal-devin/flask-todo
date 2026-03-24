@@ -1,5 +1,3 @@
-import json
-
 import pytest
 
 from app import create_app, db
@@ -59,6 +57,13 @@ class TestCreateTodo:
 
     def test_rejects_title_over_100_chars(self, client):
         resp = client.post("/api/todos", json={"title": "a" * 101})
+        assert resp.status_code == 400
+
+    def test_rejects_non_string_title(self, client):
+        resp = client.post("/api/todos", json={"title": 123})
+        assert resp.status_code == 400
+
+        resp = client.post("/api/todos", json={"title": True})
         assert resp.status_code == 400
 
 
