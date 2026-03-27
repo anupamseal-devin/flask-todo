@@ -38,7 +38,9 @@ def update_todo(todo_id):
         return jsonify({"error": "todo not found"}), 404
     data = request.get_json(silent=True) or {}
     if "title" in data:
-        todo.title = data["title"]
+        if not data["title"] or not str(data["title"]).strip():
+            return jsonify({"error": "title cannot be empty"}), 400
+        todo.title = str(data["title"]).strip()
     if "complete" in data:
         todo.complete = data["complete"]
     db.session.commit()

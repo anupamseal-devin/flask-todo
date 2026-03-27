@@ -26,6 +26,8 @@ def add():
 @todo_bp.route("/update/<int:todo_id>")
 def update(todo_id):
     todo = Todo.query.filter_by(id=todo_id).first()
+    if not todo:
+        return redirect(url_for("todo.home"))
     todo.complete = not todo.complete
     db.session.commit()
     return redirect(url_for("todo.home"))
@@ -34,6 +36,8 @@ def update(todo_id):
 @todo_bp.route("/delete/<int:todo_id>")
 def delete(todo_id):
     todo = Todo.query.filter_by(id=todo_id).first()
+    if not todo:
+        return redirect(url_for("todo.home"))
     db.session.delete(todo)
     db.session.commit()
     return redirect(url_for("todo.home"))
